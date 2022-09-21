@@ -1,0 +1,8 @@
+= NI-EPC or NIE-EPC student project
+
+== How to use?
+
+CAUTION: *Do not work* directly on the *master branch*.
+
+* Each assignment has its *own branch* to work with.
+* Switch to the corresponding branch and *update files*.
