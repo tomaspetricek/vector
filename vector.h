@@ -37,7 +37,6 @@ namespace epc
             return data_[i];
         }
 
-        // check if correct
         const T& operator[](size_t i) const
         {
             return data_[i];
