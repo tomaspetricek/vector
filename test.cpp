@@ -2,7 +2,6 @@
 
 #include <boost/test/included/unit_test.hpp>
 
-//#define EPC_VECTOR_UNSAFE
 #include "vector.h"
 
 #include "X.h"
