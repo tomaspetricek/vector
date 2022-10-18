@@ -12,4 +12,4 @@ IMPORTANT: Do not update any other existing files!
 * Compile `benchmark.cpp` and run it on a classroom computer.
 * Create a _merge request_ to indicate the final submission of your solution.
 
-NOTE: See _Coruse Pages_ for details.
+NOTE: See _Course Pages_ for details.
