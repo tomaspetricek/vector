@@ -3,18 +3,19 @@
 #include <stdexcept>
 
 unsigned long X::constructed_ = 0;
-unsigned long X::default_constructed_ = 0;
+//unsigned long X::default_constructed_ = 0;
 unsigned long X::int_constructed_ = 0;
 unsigned long X::copy_constructed_ = 0;
 unsigned long X::copy_assigned_ = 0;
 unsigned long X::destructed_ = 0;
 unsigned long X::alive_ = 0;
 
-std::pair<bool, int> X::default_constructor_throws_{false, 0};
+//std::pair<bool, int> X::default_constructor_throws_{false, 0};
 std::pair<bool, int> X::int_constructor_throws_{false, 0};
 std::pair<bool, int> X::copy_constructor_throws_{false, 0};
 std::pair<bool, int> X::copy_assignment_throws_{false, 0};
 
+/*
 X::X() : i_(-1)
 {
    if ((default_constructor_throws_.first) && (--default_constructor_throws_.second == 0))
@@ -24,6 +25,7 @@ X::X() : i_(-1)
    default_constructed_++;
    alive_++;
 }
+*/
 
 X::X(int i) : i_(i)
 {
@@ -64,7 +66,7 @@ X::~X()
 X::operator int() const { return i_; }
 
 unsigned long X::constructed() { return constructed_; }
-unsigned long X::default_constructed() { return default_constructed_; }
+//unsigned long X::default_constructed() { return default_constructed_; }
 unsigned long X::int_constructed() { return int_constructed_; }
 unsigned long X::copy_constructed() { return copy_constructed_; }
 unsigned long X::copy_assigned() { return copy_assigned_; }
@@ -74,7 +76,7 @@ unsigned long X::alive() { return alive_; }
 void X::reset()
 {
    constructed_ = 0;
-   default_constructed_ = 0;
+// default_constructed_ = 0;
    int_constructed_ = 0;
    copy_constructed_ = 0;
    copy_assigned_ = 0;
@@ -82,10 +84,12 @@ void X::reset()
    alive_ = 0;
 }
 
+/*
 void X::set_default_constructor_throw_n(int n)
 {
    default_constructor_throws_ = {true, n};
 }
+*/
 
 void X::set_int_constructor_throw_n(int n)
 {
@@ -104,7 +108,7 @@ void X::set_copy_assignment_throw_n(int n)
 
 void X::reset_exceptions()
 {
-   default_constructor_throws_ = {false, 0};
+// default_constructor_throws_ = {false, 0};
    int_constructor_throws_ = {false, 0};
    copy_constructor_throws_ = {false, 0};
    copy_assignment_throws_ = {false, 0};

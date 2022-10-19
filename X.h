@@ -9,7 +9,7 @@ class X
 {
    static unsigned long
       constructed_,
-      default_constructed_,
+//    default_constructed_,
       int_constructed_,
       copy_constructed_,
       copy_assigned_,
@@ -17,7 +17,7 @@ class X
       alive_;
 
    static std::pair<bool, int>
-      default_constructor_throws_,
+//    default_constructor_throws_,
       int_constructor_throws_,
       copy_constructor_throws_,
       copy_assignment_throws_;
@@ -25,7 +25,8 @@ class X
    int i_;
 
 public:
-   X();
+// X();
+   X() = delete;
    X(int i);
    X(const X& other);
    X& operator=(const X& other);
@@ -66,7 +67,7 @@ public:
 */
 
    static unsigned long constructed();
-   static unsigned long default_constructed();
+// static unsigned long default_constructed();
    static unsigned long int_constructed();
    static unsigned long copy_constructed();
    static unsigned long copy_assigned();
@@ -75,7 +76,7 @@ public:
 
    static void reset();
 
-   static void set_default_constructor_throw_n(int);
+// static void set_default_constructor_throw_n(int);
    static void set_int_constructor_throw_n(int);
    static void set_copy_constructor_throw_n(int);
    static void set_copy_assignment_throw_n(int);
