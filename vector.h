@@ -31,9 +31,9 @@ namespace epc
          void push_back(const T&) { }
          void pop_back() { } 
 
-         void clear();
+         void clear() { }
 
-         void swap(vector& other) noexcept { }
+         void swap(vector&) noexcept { }
    };
 }
 
