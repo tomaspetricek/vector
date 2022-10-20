@@ -70,12 +70,12 @@ BOOST_AUTO_TEST_CASE(pop_back_test)
       v.pop_back();
 
       BOOST_TEST( v.size() == 1 );
-      BOOST_TEST( v.capacity() == 2);
+      BOOST_TEST( v.capacity() == 2 );
       BOOST_TEST( X::destructed() == destructed + 1 );
    }
 
    BOOST_TEST( X::constructed() == X::destructed() );
-   BOOST_TEST( X::alive() == 0);
+   BOOST_TEST( X::alive() == 0 );
 }
 
 BOOST_AUTO_TEST_CASE(clear_test)
@@ -94,12 +94,12 @@ BOOST_AUTO_TEST_CASE(clear_test)
       v.clear();
 
       BOOST_TEST( v.size() == 0 );
-      BOOST_TEST( v.capacity() == 2);
+      BOOST_TEST( v.capacity() == 2 );
       BOOST_TEST( X::destructed() == destructed + 2 );
    }
 
    BOOST_TEST( X::constructed() == X::destructed() );
-   BOOST_TEST( X::alive() == 0);
+   BOOST_TEST( X::alive() == 0 );
 }
 
 
@@ -126,7 +126,7 @@ BOOST_AUTO_TEST_CASE(reallocation_test)
    }
 
    BOOST_TEST( X::constructed() == X::destructed() );
-   BOOST_TEST( X::alive() == 0);
+   BOOST_TEST( X::alive() == 0 );
 }
 
 BOOST_AUTO_TEST_CASE(copy_constructor_test)
@@ -150,7 +150,7 @@ BOOST_AUTO_TEST_CASE(copy_constructor_test)
    }
 
    BOOST_TEST( X::constructed() == X::destructed() );
-   BOOST_TEST( X::alive() == 0);
+   BOOST_TEST( X::alive() == 0 );
 }
 
 BOOST_AUTO_TEST_CASE(copy_assignment_test)
@@ -178,5 +178,5 @@ BOOST_AUTO_TEST_CASE(copy_assignment_test)
    }
 
    BOOST_TEST( X::constructed() == X::destructed() );
-   BOOST_TEST( X::alive() == 0);
+   BOOST_TEST( X::alive() == 0 );
 }
