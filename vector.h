@@ -14,23 +14,20 @@ namespace epc {
         T* data_{nullptr};
 
     public:
-        vector()
-        noexcept =
-        default;
+        vector() noexcept = default;
 
         vector(const vector& src)
                 :capacity_{src.size_}, size_{src.size_}
         {
             if (size_) {
-                std::size_t s;
+                std::size_t s{0};
+
+                // allocate memory
+                data_ = static_cast<T*>(::operator new(size_*sizeof(T)));
 
                 try {
-                    // allocate memory
-                    data_ = static_cast<T*>(::operator new(size_*sizeof(T)));
-
                     // initialize elements
-                    for (s = 0; s<src.size(); s++)
-                        new(data_+s) T(src.data_[s]);
+                    std::uninitialized_copy(src.data_, src.data_+src.size_, data_);
                 }
                 catch (...) {
                     // destroy elements
@@ -110,8 +107,7 @@ namespace epc {
             return size_;
         }
 
-        void swap(vector& other)
-        noexcept
+        void swap(vector& other) noexcept
         {
             std::swap(data_, other.data_);
             std::swap(capacity_, other.capacity_);
@@ -122,21 +118,16 @@ namespace epc {
         {
             if (capacity>capacity_) {
                 T* temp{nullptr};
-                std::size_t s;
+                std::size_t s{0};
+
+                // allocate memory
+                temp = static_cast<T*>(::operator new(capacity*sizeof(T)));
 
                 try {
-                    // allocate memory
-                    temp = static_cast<T*>(::operator new(capacity*sizeof(T)));
-
                     // initialize elements
-                    for (s = 0; s<size_; s++)
-                        new(temp+s) T(data_[s]);
+                    std::uninitialized_copy(data_, data_+size_, temp);
                 }
                 catch (...) {
-                    // destroy elements
-                    for (std::size_t d{0}; d<s; d++)
-                        data_[d].T::~T();
-
                     // deallocate memory
                     ::operator delete(temp);
                     throw;
@@ -156,20 +147,16 @@ namespace epc {
 
         void pop_back()
         {
-            if (size_) {
-                data_[size_-1].T::~T();
-                size_--;
-            }
+            data_[size_-1].T::~T();
+            size_--;
         }
 
         void clear()
         {
-            if (size_) {
-                for (std::size_t i{0}; i<size_; i++)
-                    data_[i].T::~T();
+            for (std::size_t i{0}; i<size_; i++)
+                data_[i].T::~T();
 
-                size_ = 0;
-            }
+            size_ = 0;
         }
     };
 }
