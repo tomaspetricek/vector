@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE(push_back_test)
    }
 
    BOOST_TEST( X::constructed() == X::destructed() );
-   BOOST_TEST( X::alive() == 0);
+   BOOST_TEST( X::alive() == 0 );
 }
 
 BOOST_AUTO_TEST_CASE(pop_back_test)
