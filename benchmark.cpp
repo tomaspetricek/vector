@@ -4,9 +4,9 @@
 #include <string>
 #include <vector>
 
-//#include <boost/container/small_vector.hpp>
+#include <boost/container/small_vector.hpp>
 
-//#include <llvm/ADT/SmallVector.h>
+#include <llvm/ADT/SmallVector.h>
 
 #include "vector.h"
 
@@ -38,8 +38,8 @@ static void test(benchmark::State& state)
 using value_type = std::string;
 
 BENCHMARK_TEMPLATE(test, std::vector<value_type>);
-BENCHMARK_TEMPLATE(test, epc::vector<value_type>);
-//BENCHMARK_TEMPLATE(test, boost::container::small_vector<value_type, 8>);
-//BENCHMARK_TEMPLATE(test, llvm::SmallVector<value_type, 8>);
+BENCHMARK_TEMPLATE(test, epc::vector<value_type, 8>);
+BENCHMARK_TEMPLATE(test, boost::container::small_vector<value_type, 8>);
+BENCHMARK_TEMPLATE(test, llvm::SmallVector<value_type, 8>);
 
 BENCHMARK_MAIN();
