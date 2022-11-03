@@ -128,6 +128,7 @@ BOOST_AUTO_TEST_CASE(long_long_swap_test)
       v1.push_back(3);
 
       epc::vector<X, 2> v2;
+
       v2.push_back(4);
       v2.push_back(5);
       v2.push_back(6);
@@ -163,6 +164,7 @@ BOOST_AUTO_TEST_CASE(short_short_swap_test)
       v1.push_back(2);
 
       epc::vector<X, 2> v2;
+
       v2.push_back(3);
 
       v1.swap(v2);
@@ -191,6 +193,7 @@ BOOST_AUTO_TEST_CASE(short_long_swap_test)
       v1.push_back(2);
 
       epc::vector<X, 2> v2;
+      
       v2.push_back(3);
       v2.push_back(4);
       v2.push_back(5);
