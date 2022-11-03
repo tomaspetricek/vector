@@ -16,8 +16,6 @@ namespace epc {
 
         bool is_short() const { return capacity_==N; }
 
-        T* ptr() { return is_short() ? reinterpret_cast<T*>(buff_) : data_; }
-
     public:
         vector() noexcept = default;
 
@@ -26,11 +24,12 @@ namespace epc {
         {
             std::size_t s{0};
 
-            if (!is_short())
+            if (!src.is_short())
                 data_ = static_cast<T*>(::operator new(size_*sizeof(T)));
 
             try {
-                std::uninitialized_copy(src.data_, src.data_+src.size_, data_);
+                for (s = 0; s<src.size(); s++)
+                    new(data_+s) T(src.data_[s]);
             }
             catch (...) {
                 for (std::size_t d{0}; d<s; d++)
@@ -85,13 +84,8 @@ namespace epc {
             if (size_==capacity_)
                 reserve((!capacity_) ? 1 : capacity_*2);
 
-            try {
-                new(data_+(size_++)) T(el);
-            }
-            catch (...) {
-                size_--;
-                throw;
-            }
+            new(data_+(size_)) T(el);
+            size_++;
         }
 
         size_t capacity() const
@@ -123,9 +117,13 @@ namespace epc {
                 temp = static_cast<T*>(::operator new(capacity*sizeof(T)));
 
                 try {
-                    std::uninitialized_copy(data_, data_+size_, temp);
+                    for (s = 0; s<size_; s++)
+                        new(temp+s) T(data_[s]);
                 }
                 catch (...) {
+                    for (std::size_t d{0}; d<s; d++)
+                        temp[d].T::~T();
+
                     ::operator delete(temp);
                     throw;
                 }
