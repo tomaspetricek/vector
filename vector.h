@@ -16,6 +16,8 @@ namespace epc {
 
         bool is_short() const { return capacity_==N; }
 
+        T* ptr() { return is_short() ? reinterpret_cast<T*>(buff_) : data_; }
+
     public:
         vector() noexcept = default;
 
