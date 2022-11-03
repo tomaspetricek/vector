@@ -16,8 +16,6 @@ namespace epc {
 
         bool is_short() const { return capacity_==N; }
 
-        T* ptr() { return is_short() ? reinterpret_cast<T*>(buff_) : data_; }
-
     public:
         vector() noexcept = default;
 
@@ -102,12 +100,50 @@ namespace epc {
 
         void swap(vector& other) noexcept
         {
+            vector* shorter{nullptr};
+            vector* longer{nullptr};
+
+            if (size_<other.size_) {
+                shorter = this;
+                longer = &other;
+            }
+            else {
+                shorter = &other;
+                longer = this;
+            }
+
+            if (shorter->is_short()) {
+                T* shorter_buff = reinterpret_cast<T*>(shorter->buff_);
+                T* longer_buff = reinterpret_cast<T*>(longer->buff_);
+
+                // two short
+                if (longer->is_short()) {
+                    for (std::size_t i{0}; i<shorter->size_; i++)
+                        std::swap(shorter_buff[i], longer_buff[i]);
+
+                    for (std::size_t i{shorter->size_}; i<longer->size_; i++) {
+                        new(shorter_buff+i) T(longer_buff[i]);
+                        longer_buff[i].T::~T();
+                    }
+                }
+                    // long and short
+                else {
+                    for (std::size_t i{0}; i<shorter->size_; i++) {
+                        new(longer_buff+i) T(shorter_buff[i]);
+                        shorter_buff[i].T::~T();
+                    }
+
+                    shorter->data_ = longer->data_;
+                    longer->data_ = longer_buff;
+                }
+            }
+                // two long
+            else {
+                std::swap(shorter->data_, longer->data_);
+            }
+
             std::swap(capacity_, other.capacity_);
-            std::swap(buff_, other.buff_);
             std::swap(size_, other.size_);
-            std::swap(data_, other.data_);
-            data_ = ptr();
-            other.data_ = other.ptr();
         }
 
         void reserve(size_t capacity)
