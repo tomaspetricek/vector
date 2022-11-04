@@ -126,7 +126,7 @@ namespace epc {
                         longer_buff[i].T::~T();
                     }
                 }
-                    // long and short
+                // long and short
                 else {
                     for (std::size_t i{0}; i<shorter->size_; i++) {
                         new(longer_buff+i) T(shorter_buff[i]);
@@ -137,7 +137,7 @@ namespace epc {
                     longer->data_ = longer_buff;
                 }
             }
-                // two long
+            // two long
             else {
                 std::swap(shorter->data_, longer->data_);
             }
@@ -179,7 +179,7 @@ namespace epc {
 
         void pop_back()
         {
-            data_[size_--].T::~T();
+            data_[--size_].T::~T();
         }
 
         void clear()
