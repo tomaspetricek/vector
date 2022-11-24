@@ -1,4 +1,4 @@
-#define BOOST_TEST_MODULE practical4_test
+#define BOOST_TEST_MODULE practical5_test
 
 #include <utility>
 
