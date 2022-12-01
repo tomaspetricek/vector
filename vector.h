@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <algorithm>
 #include <new>
-#include <type_traits>
+
 
 namespace epc {
     template<typename T, size_t N>
