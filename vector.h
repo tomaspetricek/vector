@@ -17,7 +17,9 @@ namespace epc {
         bool is_short() const { return capacity_==N; }
 
     public:
-        vector() noexcept = default;
+        vector()
+        noexcept =
+        default;
 
         vector(const vector& src)
                 :capacity_{src.is_short() ? N : src.size_}, size_{src.size_}
@@ -53,8 +55,11 @@ namespace epc {
         vector(vector&& src)
                 :capacity_{src.is_short() ? N : src.size_}, size_{src.size_}
         {
-            if (!src.is_short())
+            if (!src.is_short()) {
                 data_ = src.data_;
+                src.data_ = reinterpret_cast<T*>(src.buff_);
+                src.capacity_ = N;
+            }
             else {
                 for (std::size_t s = 0; s<src.size(); s++) {
                     new(data_+s) T(std::move(src.data_[s]));
@@ -62,9 +67,7 @@ namespace epc {
                 }
             }
 
-            src.data_ = reinterpret_cast<T*>(src.buff_);
             src.size_ = 0;
-            src.capacity_ = N;
         }
 
         vector& operator=(vector&& rhs)
