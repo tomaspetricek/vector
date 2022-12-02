@@ -5,13 +5,13 @@
 #include <algorithm>
 #include <new>
 
-
 namespace epc {
     template<typename T, size_t N>
     class vector {
         std::size_t capacity_{N};
         std::size_t size_{0};
-        alignas(T) unsigned char buff_[sizeof(T)*N];
+        alignas(T)
+        unsigned char buff_[sizeof(T)*N];
         T* data_{reinterpret_cast<T*>(buff_)};
 
         bool is_short() const { return capacity_==N; }
@@ -56,26 +56,15 @@ namespace epc {
             if (!src.is_short())
                 data_ = src.data_;
             else {
-                std::size_t s;
-
-                try {
-                    for (s = 0; s<src.size(); s++) {
-                        new(data_+s) T(std::move(src.data_[s]));
-                        src.data_[s].T::~T();
-                    }
-                }
-                catch (...) {
-                    for (std::size_t d{0}; d<s; d++)
-                        data_[d].T::~T();
-
-                    if (!is_short()) ::operator delete(data_);
-                    throw;
+                for (std::size_t s = 0; s<src.size(); s++) {
+                    new(data_+s) T(std::move(src.data_[s]));
+                    src.data_[s].T::~T();
                 }
             }
 
+            src.data_ = reinterpret_cast<T*>(src.buff_);
             src.size_ = 0;
             src.capacity_ = N;
-            src.data_ = nullptr;
         }
 
         vector& operator=(vector&& rhs)
@@ -145,7 +134,7 @@ namespace epc {
 
         void swap(vector& other)
         {
-            vector* shorter, *longer;
+            vector* shorter, * longer;
 
             if (size_<other.size_) {
                 shorter = this;
@@ -157,8 +146,8 @@ namespace epc {
             }
 
             if (shorter->is_short()) {
-                T* shorter_buff = reinterpret_cast<T*>(shorter->buff_);
-                T* longer_buff = reinterpret_cast<T*>(longer->buff_);
+                T*shorter_buff = reinterpret_cast<T*>(shorter->buff_);
+                T*longer_buff = reinterpret_cast<T*>(longer->buff_);
 
                 // two short
                 if (longer->is_short()) {
@@ -193,7 +182,7 @@ namespace epc {
         void reserve(size_t capacity)
         {
             if (capacity>capacity_) {
-                T* temp;
+                T*temp;
                 std::size_t s{0};
 
                 temp = static_cast<T*>(::operator new(capacity*sizeof(T)));
